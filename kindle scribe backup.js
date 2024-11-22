@@ -2,6 +2,10 @@
 // HISTORY
 // https://medium.com/@ocangelo/automatically-backup-kindle-scribe-notebooks-to-google-drive-4937b5b30a2f
 //
+// 1.2.1
+//  FIXED:
+//    - fixed special characters in notebooks names with new parsing
+//
 // 1.2
 //  FIXED:
 //    - parsing new format of emails (November 2024) from amazon to grab notebooks, pages and text files from "convert to text"
@@ -55,7 +59,7 @@ const  EMAIL_TRASH = true
 // -------------------------------
 
 // version reference
-const  VERSION = "1.2"
+const  VERSION = "1.2.1"
 
 // which emails to consider
 const  EMAIL_FILTER = `from:do-not-reply@amazon.com "from your Kindle" newer_than:` + EMAIL_NEWER_THAN
@@ -218,7 +222,7 @@ function markEmails(emailThreads)
 
 // grabs file extension from url
 function getNoteExtFromUrl(url) {
-  var pattern = /kindle-content-requests-prod.s3.amazonaws.com\/[\w\d-]+\/[\d\w\s\-%]+\.([\w]+)\?/i
+  var pattern = /kindle-content-requests-prod.s3.amazonaws.com\/[\w-]+\/.+\.(pdf|txt)\?/i
   const matches = url.match(pattern)
   if (matches) {
     return matches[1];
@@ -231,7 +235,7 @@ function getNoteExtFromUrl(url) {
 
 // retrieve the url from the body of the message
 function getNoteUrlsFromMessage(message) {
-  const urlPattern = /https%3A%2F%2Fkindle-content-requests-prod[\w\-\.\%]*Signature%3D[a-zA-Z0-9]{64}/gi
+  const urlPattern = /https%3A%2F%2Fkindle-content-requests-prod[\w$&+,:;=?@#|'<>.^*()%!-]*Signature%3D[a-zA-Z0-9]{64}/gi
 
   // replace raw newlines
   const content = message.replace(/=[\n\v\r]+/gi,"")
