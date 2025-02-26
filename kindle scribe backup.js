@@ -11,7 +11,7 @@
 //    - parsing new format of emails (November 2024) from amazon to grab notebooks, pages and text files from "convert to text"
 //  IMPORTANT:  
 //    - as of November 2024 PAGES can no longer be recognized because of the new email format amazon is using,
-//      that means pages and notebooks will be named the same and override each other is DELETE_OLD_BACKUPS is true
+//      that means pages and notebooks will be named the same and override each other if DELETE_OLD_BACKUPS is true
 //
 // 1.1.2
 //    NEW: 
